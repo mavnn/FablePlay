@@ -1,0 +1,10 @@
+source https://nuget.org/api/v2
+storage:none
+
+clitool dotnet-fable
+nuget Fable.Core
+nuget Fable.Elmish
+nuget Fable.Elmish.Debugger
+nuget Fable.Elmish.React
+nuget Fable.Import.Browser
+nuget Fulma.Elmish
