@@ -71,7 +71,7 @@ let triggerLoad dispatch model =
         [ R.str "Load Pokémon" ]
 
 let counter model dispatch =
-    Level.level []
+    Level.level [ ]
         [
             Level.item [ Level.Item.HasTextCentered ]
                 [ button dispatch IsDanger Dec "-" ]

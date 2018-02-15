@@ -24,13 +24,11 @@ let fetchUrl<'a> url =
     }
 
 type Model =
-    { top : PokemonLoader.Model
-      bottom : PokemonLoader.Model
+    { loaders : PokemonLoader.Model []
       logIn : LoginForm.Model }
 
 type Msg =
-    | Top of PokemonLoader.Msg
-    | Bottom of PokemonLoader.Msg
+    | LoaderMsg of int * PokemonLoader.Msg
     | LogIn of LoginForm.Msg
 
 let getPokemon =
@@ -40,35 +38,35 @@ let getPokemon =
 
 let update getPokemon msg model =
     match msg with
-    | Top m ->
+    | LoaderMsg (index, loaderMsg) ->
         let res, cmd =
-            PokemonLoader.update getPokemon m model.top
-        { model with top = res }, Cmd.map Top cmd
-    | Bottom m ->
-        let res, cmd =
-            PokemonLoader.update getPokemon m model.bottom
-        { model with bottom = res }, Cmd.map Bottom cmd
+            PokemonLoader.update getPokemon loaderMsg model.loaders.[index]
+        model.loaders.[index] <- res
+        model, Cmd.map (fun msg -> LoaderMsg(index, msg)) cmd
     | LogIn m ->
         let res, cmd =
             LoginForm.update m model.logIn
         { model with logIn = res }, Cmd.map LogIn cmd
 
 let init () =
-    let top, topCmd = PokemonLoader.init()
-    let bottom, bottomCmd = PokemonLoader.init()
+    let initialization =
+        [| for _ in 1..10 -> PokemonLoader.init() |] 
+        |> Array.map fst
     let login, loginCmd = LoginForm.init()
-    { top = top
-      bottom = bottom
+    { loaders = initialization
       logIn = login },
-    Cmd.batch [ topCmd; bottomCmd; loginCmd ]
-
+    Cmd.batch [ loginCmd ]
 let view model dispatch =
     Container.container [ Container.IsFluid ]
         [
             match model.logIn.loggedIn with
             | Some name ->
-                yield PokemonLoader.view model.top (Top >> dispatch)
-                yield PokemonLoader.view model.bottom (Bottom >> dispatch)
+                yield R.h1 [] [R.str <| sprintf "Hello %s" name]
+                yield!
+                    model.loaders
+                    |> Array.mapi (fun i loader ->
+                                       PokemonLoader.view loader
+                                           (fun msg -> dispatch <| LoaderMsg(i, msg)))
             | None ->
                 yield LoginForm.view model.logIn (LogIn >> dispatch)
         ]
