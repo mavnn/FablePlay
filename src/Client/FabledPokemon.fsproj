@@ -1,8 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\paket-files\xyncro\aether\src\Aether\Aether.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Aether.fs</Link>
+    </Compile>
     <Compile Include="../Server/Interface.fs" />
     <Compile Include="PokemonLoader.fs" />
     <Compile Include="LoginForm.fs" />
