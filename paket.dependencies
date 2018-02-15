@@ -1,10 +1,16 @@
 source https://nuget.org/api/v2
 storage:none
 
+github Zaid-Ajaj/Fable.Parsimmon Fable.Parsimmon.Tests/QUnit.fs
+
 clitool dotnet-fable
+clitool Microsoft.DotNet.Watcher.Tools
 nuget Fable.Core
 nuget Fable.Elmish
 nuget Fable.Elmish.Debugger
 nuget Fable.Elmish.React
 nuget Fable.Import.Browser
-nuget Fulma.Elmish
+nuget Fable.JsonConverter
+nuget Fable.Plugins.NUnit
+nuget Fulma.Elmish prerelease
+nuget Suave

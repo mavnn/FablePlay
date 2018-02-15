@@ -21,17 +21,17 @@ console.log("Bundling for " + (isProduction ? "production" : "development") + ".
 
 module.exports = {
   devtool: "source-map",
-  entry: resolve('./src/Client/FabledPokemon.fsproj'),
+  entry: resolve('./Tests.fsproj'),
   output: {
     filename: 'bundle.js',
-    path: resolve('./public'),
+    path: resolve('../../tests'),
   },
   resolve: {
-    modules: [resolve("./node_modules/")]
+    modules: [resolve("../../node_modules/")]
   },
   devServer: {
-    contentBase: resolve('./public'),
-    port: 8080
+    contentBase: resolve('../../tests'),
+    port: 8082
   },
   module: {
     rules: [
